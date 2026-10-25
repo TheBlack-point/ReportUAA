@@ -1,5 +1,8 @@
-#Environment variables file
+# Environment variables files
 .env
 
 #Libraries files
 node_modules/
+
+#Files generated
+dist/
