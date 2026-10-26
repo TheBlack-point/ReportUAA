@@ -1,25 +1,36 @@
-import 'dotenv/config';
 import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME as string,
-  process.env.DB_USER as string,
-  process.env.DB_PASSWORD as string,
-  {
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT) || 3306,
-    dialect: 'mysql',
-    logging: false,
+dotenv.config();
+
+const { DB_USER, DB_HOST, DB_PORT, DB_PASSWORD, DB_NAME, NODE_ENVIRONMENT } = process.env;
+
+export class SequelizeConnection {
+  private readonly sequelize: Sequelize;
+
+  constructor() {
+    this.sequelize = new Sequelize(DB_NAME!, DB_USER!, DB_PASSWORD, {
+      host: DB_HOST!,
+      port: Number(DB_PORT) || 3306,
+      dialect: 'mysql',
+      logging: NODE_ENVIRONMENT === 'dev' ? console.log : false,
+    });
   }
-);
 
-export const testConnection = async (): Promise<void> => {
-  try {
-    await sequelize.authenticate();
-    console.log('Conexión a MySQL establecida correctamente.');
-  } catch (error) {
-    console.error('No se pudo conectar a MySQL:', error);
+  public getSequelize(): Sequelize {
+    return this.sequelize;
   }
-};
 
-export default sequelize;
+  public async connect(): Promise<void> {
+    await this.sequelize.authenticate();
+    await this.sequelize.sync();
+  }
+
+  public async disconnect(): Promise<void> {
+    await this.sequelize.close();
+  }
+}
+
+const sequelizeConnection = new SequelizeConnection();
+
+export default sequelizeConnection;

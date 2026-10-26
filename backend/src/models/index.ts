@@ -35,8 +35,6 @@ Report.belongsTo(Area, { foreignKey: 'fk_idArea', onDelete: 'RESTRICT' });
 Report.hasMany(PhotoEvidence, { foreignKey: 'fk_idReport', onDelete: 'CASCADE' });
 PhotoEvidence.belongsTo(Report, { foreignKey: 'fk_idReport', onDelete: 'CASCADE' });
 
-export const syncDatabase = async (): Promise<void> => {
-  await sequelize.sync();
-};
+
 
 export { sequelize, User, Reporter, Technician, Area, Location, Report, PhotoEvidence };

@@ -1,5 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/sequelize_connection';
+import sequelizeConnection from '../config/sequelize_connection';
+
+const sequelize = sequelizeConnection.getSequelize();
 
 interface IReport extends Model {
   idReport: number;
