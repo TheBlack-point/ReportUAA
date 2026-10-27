@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
-import { Report, Reporter, User, Location, Area, PhotoEvidence } from '../models/index';
-import { CreateReportDto, validateCreateReportDto } from '../dto/CreateReportDto';
+import type { Request, Response } from 'express';
+import { Report, Reporter, User, Location, Area, PhotoEvidence } from '../models/index.ts';
+import type { CreateReportDto } from '../dto/CreateReportDto.ts';
+import { validateCreateReportDto } from '../dto/CreateReportDto.ts'
 
 export class ReportController {
   // Total Report Detail
