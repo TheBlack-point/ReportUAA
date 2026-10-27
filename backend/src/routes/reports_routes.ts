@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { ReportController } from '../controllers/report_controller';
+import { ReportController } from '../controllers/report_controller.ts';
 
 export class ReportsRoutes {
     static get router(): Router {
