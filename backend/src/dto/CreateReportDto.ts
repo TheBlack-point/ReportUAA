@@ -1,48 +1,58 @@
-import { Request, Response } from 'express';
-import { Report, Reporter, Location, Area } from '../models/index';
-import type { CreateReportDto } from '../dto/CreateReportDto';
+export interface CreateReportDto {
+  elementCode: string;
+  description: string;
+  issueType: string;
+  priority: number;
+  fk_idReporter: number;
+  fk_idLocation: number;
+  fk_idArea: number;
+  inspectionVisit?: boolean;
+  notes?: string;
+}
 
-export const createReport = async (req: Request, res: Response) => {
-  try {
-    const data: CreateReportDto = req.body;
+const isText = (value: unknown, max?: number): boolean => {
+  if (typeof value !== 'string' || value.trim() === '') return false;
+  return max === undefined || value.length <= max;
+};
 
-    if (!data.elementCode || !data.description || !data.issueType) {
-      return res.status(400).json({ message: 'Faltan datos del reporte' });
-    }
-    if (!data.priority || !data.fk_idReporter || !data.fk_idLocation || !data.fk_idArea) {
-      return res.status(400).json({ message: 'Faltan datos del reporte' });
-    }
+const isPositiveInt = (value: unknown): boolean => {
+  return Number.isInteger(value) && (value as number) > 0;
+};
 
-    const reporter = await Reporter.findByPk(data.fk_idReporter);
-    if (!reporter) {
-      return res.status(404).json({ message: 'El usuario no existe' });
-    }
+export const validateCreateReportDto = (data: any): string[] => {
+  const errors: string[] = [];
 
-    const location = await Location.findByPk(data.fk_idLocation);
-    if (!location) {
-      return res.status(404).json({ message: 'La ubicación no existe' });
-    }
-
-    const area = await Area.findByPk(data.fk_idArea);
-    if (!area) {
-      return res.status(404).json({ message: 'El área no existe' });
-    }
-
-    const report = await Report.create({
-      elementCode: data.elementCode,
-      description: data.description,
-      issueType: data.issueType,
-      priority: data.priority,
-      fk_idReporter: data.fk_idReporter,
-      fk_idLocation: data.fk_idLocation,
-      fk_idArea: data.fk_idArea,
-      inspectionVisit: data.inspectionVisit,
-      notes: data.notes,
-    });
-
-    return res.status(201).json(report);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'No se pudo registrar el reporte' });
+  if (!data || typeof data !== 'object') {
+    return ['El cuerpo de la petición es obligatorio'];
   }
+
+  if (!isText(data.elementCode, 50)) {
+    errors.push('elementCode es obligatorio (máximo 50 caracteres)');
+  }
+  if (!isText(data.description)) {
+    errors.push('description es obligatoria');
+  }
+  if (!isText(data.issueType, 100)) {
+    errors.push('issueType es obligatorio (máximo 100 caracteres)');
+  }
+  if (!isPositiveInt(data.priority)) {
+    errors.push('priority debe ser un número entero mayor a 0');
+  }
+  if (!isPositiveInt(data.fk_idReporter)) {
+    errors.push('fk_idReporter debe ser un número entero mayor a 0');
+  }
+  if (!isPositiveInt(data.fk_idLocation)) {
+    errors.push('fk_idLocation debe ser un número entero mayor a 0');
+  }
+  if (!isPositiveInt(data.fk_idArea)) {
+    errors.push('fk_idArea debe ser un número entero mayor a 0');
+  }
+  if (data.inspectionVisit !== undefined && typeof data.inspectionVisit !== 'boolean') {
+    errors.push('inspectionVisit debe ser true o false');
+  }
+  if (data.notes !== undefined && typeof data.notes !== 'string') {
+    errors.push('notes debe ser texto');
+  }
+
+  return errors;
 };
