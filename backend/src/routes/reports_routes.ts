@@ -1,12 +1,16 @@
 import { Router } from 'express';
-import { getReportById, getReportStatus, getReportsByUserId } from '../controllers/reports_controller';
+import { ReportController } from '../controllers/report_controller';
 
-const router = Router();
+export class ReportsRoutes {
+    static get router(): Router {
+        const router = Router();
+        const reportController =  new ReportController();
+        
+        router.get('/:id', reportController.getReportById);
+        router.get('/:id/status', reportController.getReportStatus);
+        router.get('/user/:userId', reportController.getReportsByUserId);
+        router.post('/', reportController.createReport)
 
-router.get('/:id', getReportById);
-
-router.get('/:id/status', getReportStatus);
-
-router.get('/user/:userId', getReportsByUserId);
-
-export default router;
+        return router;
+    }
+}
