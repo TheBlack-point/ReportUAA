@@ -1,5 +1,6 @@
 # Environment variables files
 .env
+.env.test
 
 #Libraries files
 node_modules/
