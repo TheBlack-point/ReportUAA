@@ -1,11 +1,11 @@
-import sequelize from '../config/sequelize_connection';
-import User from './User';
-import Reporter from './Reporter';
-import Technician from './Technician';
-import Area from './Area';
-import Location from './Location';
-import Report from './Report';
-import PhotoEvidence from './PhotoEvidence';
+import sequelize from '../config/sequelize_connection.ts';
+import User from './User.ts';
+import Reporter from './Reporter.ts';
+import Technician from './Technician.ts';
+import Area from './Area.ts';
+import Location from './Location.ts';
+import Report from './Report.ts';
+import PhotoEvidence from './PhotoEvidence.ts';
 
 //User 1:1 Reporter
 User.hasOne(Reporter, { foreignKey: 'fk_idUser' });
