@@ -1,17 +1,15 @@
 import { Request, Response } from 'express';
 import { Report, Reporter, Location, Area } from '../models/index';
-import type { CreateReportDto } from '../dto/CreateReportDto';
+import { CreateReportDto, validateCreateReportDto } from '../dto/CreateReportDto';
 
 export const createReport = async (req: Request, res: Response) => {
   try {
-    const data: CreateReportDto = req.body;
+    const errors = validateCreateReportDto(req.body);
+    if (errors.length > 0) {
+      return res.status(400).json({ message: 'Datos inválidos', errors });
+    }
 
-    if (!data.elementCode || !data.description || !data.issueType) {
-      return res.status(400).json({ message: 'Faltan datos del reporte' });
-    }
-    if (!data.priority || !data.fk_idReporter || !data.fk_idLocation || !data.fk_idArea) {
-      return res.status(400).json({ message: 'Faltan datos del reporte' });
-    }
+    const data: CreateReportDto = req.body;
 
     const reporter = await Reporter.findByPk(data.fk_idReporter);
     if (!reporter) {
