@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Report, User, Location, PhotoEvidence } from '../models/index'; // Importar desde index siempre[cite: 3]
+import { Report, User, Location, PhotoEvidence } from '../models/index';
 
-// US-010: Detalle completo del reporte
+// US-010: Complete Report Detail
 export const getReportById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -19,7 +19,7 @@ export const getReportById = async (req: Request, res: Response) => {
   }
 };
 
-// US-007: Consultar estado del reporte
+// US-007: Check Report Status
 export const getReportStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -37,7 +37,7 @@ export const getReportStatus = async (req: Request, res: Response) => {
   }
 };
 
-// Consultar reportes creados por un usuario
+// Check generated user reports
 export const getReportsByUserId = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
