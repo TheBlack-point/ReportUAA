@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { User } from '../models/index';
+import type { Request, Response, NextFunction } from 'express';
+import { User } from '../models/index.ts';
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
