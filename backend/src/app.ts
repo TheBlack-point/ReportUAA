@@ -1,7 +1,7 @@
 import { Server } from './server.ts';
 import { AppRoutes } from './routes/index.ts';
 import dotenv from 'dotenv';
-import sequelizeConnection from './conf/sequelize.connection.ts';
+import sequelizeConnection from './config/sequelize_connection.ts'
 
 dotenv.config();
 const port = Number(process.env['PORT']);
@@ -17,3 +17,5 @@ async function main() {
         process.exit(1);
     }
 }
+
+main();
