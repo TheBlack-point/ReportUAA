@@ -9,6 +9,7 @@ export class ReportsRoutes {
         router.get('/:id', reportController.getReportById);
         router.get('/:id/status', reportController.getReportStatus);
         router.get('/user/:userId', reportController.getReportsByUserId);
+        router.get('/area/:area', reportController.getReportsByArea);
         router.post('/', reportController.createReport)
 
         return router;

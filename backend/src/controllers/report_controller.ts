@@ -2,15 +2,14 @@ import type { Request, Response } from 'express';
 import { Report, Reporter, User, Location, Area, PhotoEvidence } from '../models/index.ts';
 import type { CreateReportDto } from '../dto/CreateReportDto.ts';
 import { validateCreateReportDto } from '../dto/CreateReportDto.ts'
+import { AreaReportsService } from '../services/AreaReportsService.ts';
 
 export class ReportController {
   // Total Report Detail
   public async getReportById(req: Request, res: Response) {
     try {
       const id = Number(req.params['id']);
-      const report = await Report.findByPk(id, {
-        include: [User, Location, PhotoEvidence]
-      });
+      const report = await Report.findByPk(id);
 
       if (!report) {
         return res.status(404).json({ message: 'Reporte no encontrado' });
@@ -18,7 +17,7 @@ export class ReportController {
 
       return res.status(200).json(report);
     } catch (error) {
-      return res.status(500).json({ message: 'Error al obtener el reporte', error });
+      return res.status(500).json({ message: 'Error al obtener el reporte'});
     }
   }
 
@@ -36,7 +35,7 @@ export class ReportController {
 
       return res.status(200).json({ status: report.status });
     } catch (error) {
-      return res.status(500).json({ message: 'Error al obtener el estado', error });
+      return res.status(500).json({ message: 'Error al obtener el estado' });
     }
   }
 
@@ -51,7 +50,7 @@ export class ReportController {
 
       return res.status(200).json(reports);
     } catch (error) {
-      return res.status(500).json({ message: 'Error al obtener los reportes del usuario', error });
+      return res.status(500).json({ message: 'Error al obtener los reportes del usuario' });
     }
   }
 
@@ -97,5 +96,22 @@ export class ReportController {
       console.error(error);
       return res.status(500).json({ message: 'No se pudo registrar el reporte' });
     }
+  }
+
+  //Get reports by area
+  public async getReportsByArea(req: Request, res: Response) {
+    try {
+      const area = Number(req.params.area); //Look real name to identify area, and where it comes
+
+      const reports = await AreaReportsService.getReportsByArea(area);
+
+      if(!reports) {
+        return res.status(400).json({message: `No se encontraron reportes para el área de ${area}`});
+      }
+
+      return res.status(200).json(reports);
+    } catch(err) {
+      return res.status(500).json({message: 'Error al tratar de obtener los reportes del área'})
     }
+  }
 }

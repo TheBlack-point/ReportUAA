@@ -3,7 +3,7 @@ import sequelizeConnection from '../config/sequelize_connection.ts';
 
 const sequelize = sequelizeConnection.getSequelize();
 
-interface IReport extends Model {
+export interface IReport extends Model {
   idReport: number;
   dateCreated: string;
   elementCode: string;
