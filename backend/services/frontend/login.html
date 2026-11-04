@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Sistema de Reportes</title>
-    <!-- Vinculación con los estilos que realiza Paola -->
+    <title>Login - Reporting System</title>
+    <!-- Linking with the styles made by Paola -->
     <link rel="stylesheet" href="css/styles_login.css">
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
-            <!-- Logo institucional simulado -->
-            <img src="img/logo.png" alt="Logo Institucional" class="logo" onerror="this.style.display='none'">
-            <h2>Sistema de Gestión de Reportes</h2>
-            <p>Acceso Administrativo</p>
+            <!-- Simulated institutional logo -->
+            <img src="img/logo.png" alt="Institutional Logo" class="logo" onerror="this.style.display='none'">
+            <h2>Report Management System</h2>
+            <p>Administrative Access</p>
         </div>
 
         <form action="/api/auth/login" method="POST" class="login-form">
             <div class="input-group">
-                <label for="identifier">ID o Correo Electrónico</label>
+                <label for="identifier">ID or Email</label>
                 <input 
                     type="text" 
                     id="identifier" 
                     name="identifier" 
-                    placeholder="Ingrese su ID o correo" 
+                    placeholder="Enter your ID or email" 
                     required
                 >
             </div>
 
             <div class="input-group">
-                <label for="password">Contraseña</label>
+                <label for="password">Password</label>
                 <input 
                     type="password" 
                     id="password" 
@@ -39,7 +39,7 @@
                 >
             </div>
 
-            <button type="submit" class="btn-login">Iniciar Sesión</button>
+            <button type="submit" class="btn-login">Log In</button>
         </form>
     </div>
 </body>
