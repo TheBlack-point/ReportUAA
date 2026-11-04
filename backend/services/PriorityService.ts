@@ -1,37 +1,37 @@
 export class PriorityService {
   /**
-   * Determina automáticamente la prioridad de un reporte.
-   * 1 = Baja, 2 = Media, 3 = Alta
+   * Automatically determines the priority of an issue report.
+   * 1 = Low, 2 = Medium, 3 = High
    */
   public static calculatePriority(issueType: string, description: string): number {
     const textToCheck = `${issueType} ${description}`.toLowerCase();
 
-    // Palabras clave que indican alta prioridad (riesgo eléctrico, fugas graves, fuego, seguridad)
+    // Keywords indicating high priority (electrical risk, severe leaks, fire, safety)
     const highPriorityKeywords = [
       'fuego', 'cortocircuito', 'chispa', 'peligro', 'fuga de agua', 
       'gas', 'roto', 'caída', 'inundación', 'inestable'
     ];
 
-    // Palabras clave de prioridad media
+    // Medium priority keywords
     const mediumPriorityKeywords = [
       'parpadea', 'tambalea', 'mancha', 'ruido', 'lento'
     ];
 
-    // Evaluar si contiene palabras de alta prioridad
+    // Evaluate if it contains high priority words
     for (const keyword of highPriorityKeywords) {
       if (textToCheck.includes(keyword)) {
-        return 3; // Alta
+        return 3; // High
       }
     }
 
-    // Evaluar si contiene palabras de prioridad media
+    // Evaluate if it contains medium priority words
     for (const keyword of mediumPriorityKeywords) {
       if (textToCheck.includes(keyword)) {
-        return 2; // Media
+        return 2; // Medium
       }
     }
 
-    // Por defecto, si no es crítico, se asigna prioridad baja
-    return 1; // Baja
+    // By default, if not critical, low priority is assigned
+    return 1; // Low
   }
 }
