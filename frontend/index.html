@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReportUAA - Generar Reporte</title>
+</head>
+<body>
+
+    <header class="header">
+        <img src="#" alt="Gallo UAA">
+        <h1>ReportUAA</h1>
+        <img src="#" alt="Logo UAA">
+    </header>
+
+    <main class="main-container">
+        <h2>Nuevo reporte</h2>
+        <form class="main-form">
+
+            <div class="row-three-inputs">
+                <div class="input-element">
+                    <label>ID</label>
+                    <input type="text" id="" readonly>
+                </div>
+                <div class="input-element">
+                    <label>Nombre</label>
+                    <input type="text" fullName="" readonly>
+                </div>
+                <div class="input-element">
+                    <label>Fecha</label>
+                    <input type="text" date="" readonly>
+                </div>
+            </div>
+
+            <div class="row-two-inputs">
+                <div class="input-element">
+                    <label>Edificio</label>
+                    <input type="text" building="" readonly>
+                </div>
+                <div class="input-element">
+                    <label>Aula</label>
+                    <input type="text" classRoom="" readonly>
+                </div>
+            </div>
+
+            <div class="row-two-inputs">
+                <div class="input-element">
+                    <label>Código Item</label>
+                    <input type="text" codeItem="" placeholder="Código del equipo o mueble" required>
+                </div>
+                <div class="input-element">
+                    <label>Tipo de problema</label>
+                    <select name="issueType" required>
+                        <option selected disabled>Selecciona una opción</option>                        
+                        <option>Eléctrico</option>
+                        <option>Redes</option>
+                        
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-element">
+                <label>Descripción</label>
+                <input type="" placeholder="Cuéntanos qué pasó" required>
+            </div>
+            <div class="input-element">
+                <label>Añadir Evidencia (1-3)</label>
+                <input type="file" required>
+            </div>
+            <button type="submit">Generar Reporte</button>
+        </form>
+    </main>
+    
+</body>
+</html>
