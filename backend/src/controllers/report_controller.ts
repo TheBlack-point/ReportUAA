@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import { Report, Reporter, User, Location, Area, PhotoEvidence } from '../models/index.ts';
 import type { CreateReportDto } from '../dto/CreateReportDto.ts';
 import { validateCreateReportDto } from '../dto/CreateReportDto.ts'
+import { ClassificationService } from '../services/ClassificationService.ts';
 
 export class ReportController {
   // Total Report Detail
@@ -75,7 +76,9 @@ export class ReportController {
         return res.status(404).json({ message: 'La ubicación no existe' });
       }
 
-      const area = await Area.findByPk(data.fk_idArea);
+      //the system assigns the area automatically
+      const department = ClassificationService.classify(data.issueType, data.description);
+      const area = await Area.findOne({ where: { name: department } });
       if (!area) {
         return res.status(404).json({ message: 'El área no existe' });
       }
@@ -87,7 +90,7 @@ export class ReportController {
         priority: data.priority,
         fk_idReporter: data.fk_idReporter,
         fk_idLocation: data.fk_idLocation,
-        fk_idArea: data.fk_idArea,
+        fk_idArea: area.idArea,
         inspectionVisit: data.inspectionVisit,
         notes: data.notes,
       });
