@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Nunito+Sans:wght@400;600&display=swap');
+
+/* Colors by role (from the ReportUAA visual manual) */
+:root {
+    --primary: #003374;
+    --primary-hover: #002868;
+    --text: #131313;
+    --text-soft: #575757;
+    --background: #FFFFFF;
+    --surface: #F9F9F9;
+    --border: #E0E0E0;
+    --success: #15803D;
+    --warning: #F5AF33;
+    --error: #D30640;
+    --inactive: #969696;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    font-family: "Nunito Sans", system-ui, Arial, sans-serif;
+    font-size: 16px;
+    color: var(--text);
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 33%;
+    min-width: 320px;
+    padding: 32px;
+}
+
+
+.login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+
+    .logo {
+        width: 80px;
+        height: auto;
+    }
+
+    
+    h2 {
+        margin: 0;
+        font-family: "Montserrat", system-ui, Arial, sans-serif;
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    
+    h2::after {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 2px;
+        margin: 8px auto 0;
+        background-color: var(--error);
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-soft);
+    }
+}
+
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 6px;
+    width: 100%;
+
+    
+    label {
+        font-family: "Montserrat", system-ui, Arial, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--primary);
+    }
+
+    input {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background-color: var(--background);
+        padding: 10px 12px;
+        font-family: inherit;
+        font-size: 16px;
+        color: var(--text);
+    }
+
+    
+    input:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+
+    /* Error state: 2px error border */
+    input.input-error {
+        border: 2px solid var(--error);
+    }
+
+    /* Error message under the field */
+    .error-message {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--error);
+    }
+}
+
+
+.btn-login {
+    width: 100%;
+    height: 42px;
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: "Montserrat", system-ui, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.btn-login:hover {
+    background-color: var(--primary-hover);
+}
+
+
+.btn-login:active {
+    background-color: var(--primary-hover);
+    transform: translateY(1px);
+}
+
+
+.btn-login:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+
+.btn-login:disabled {
+    background-color: var(--inactive);
+    cursor: not-allowed;
+}
