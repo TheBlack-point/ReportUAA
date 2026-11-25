@@ -1,7 +1,9 @@
 import type { Request, Response } from 'express';
-import { Report, Reporter, User, Location, Area, PhotoEvidence } from '../models/index.ts';
+import { Report, Reporter, User, Location, Area, PhotoEvidence, Technician } from '../models/index.ts';
 import type { CreateReportDto } from '../dto/CreateReportDto.ts';
-import { validateCreateReportDto } from '../dto/CreateReportDto.ts'
+import { validateCreateReportDto } from '../dto/CreateReportDto.ts';
+import type { RegisterObservationDto } from '../dto/RegisterObservationDto.ts';
+import { validateRegisterObservationDto } from '../dto/RegisterObservationDto.ts';
 import { ClassificationService } from '../services/ClassificationService.ts';
 
 export class ReportController {
@@ -100,5 +102,80 @@ export class ReportController {
       console.error(error);
       return res.status(500).json({ message: 'No se pudo registrar el reporte' });
     }
+  }
+
+  // US-018: View Issue Information
+  public async getReportDetails(req: Request, res: Response) {
+    try {
+      const id = Number(req.params['id']);
+      if (Number.isNaN(id)) {
+        return res.status(400).json({ message: 'ID de reporte inválido' });
+      }
+
+      const report = await Report.findByPk(id, {
+        attributes: [
+          'idReport',
+          'dateCreated',
+          'elementCode',
+          'description',
+          'issueType',
+          'priority',
+          'status',
+          'inspectionVisit',
+          'notes',
+          'fk_idArea',
+          'fk_idLocation',
+          'fk_idTechnician',
+        ],
+        include: [
+          Area,
+          Location,
+          { model: Technician, include: [User] },
+          PhotoEvidence,
+        ],
+      });
+
+      if (!report) {
+        return res.status(404).json({ message: 'Reporte no encontrado' });
+      }
+
+      return res.status(200).json(report);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error al obtener el detalle del reporte', error });
     }
+  }
+
+  // US-019: Register Service Observations
+  public async registerObservation(req: Request, res: Response) {
+    try {
+      const id = Number(req.params['id']);
+      if (Number.isNaN(id)) {
+        return res.status(400).json({ message: 'ID de reporte inválido' });
+      }
+
+      const errors = validateRegisterObservationDto(req.body);
+      if (errors.length > 0) {
+        return res.status(400).json({ message: 'Datos inválidos', errors });
+      }
+
+      const { notes }: RegisterObservationDto = req.body;
+
+      const report = await Report.findByPk(id);
+      if (!report) {
+        return res.status(404).json({ message: 'Reporte no encontrado' });
+      }
+
+      report.notes = notes.trim();
+      await report.save();
+
+      return res.status(200).json({
+        message: 'Observaciones registradas correctamente',
+        report,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error al registrar las observaciones', error });
+    }
+  }
 }
